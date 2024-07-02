@@ -3,92 +3,95 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventMaster.Controllers
 {
+    /// <summary>
+    /// Controller for managing events.
+    /// </summary>
+    [ApiController]
+    [Route ( "api/event" )]
+    public class EventController : ControllerBase
+    {
+        private readonly List<Event> events = new();
+
         /// <summary>
-        /// Controller for managing events.
+        /// 
         /// </summary>
-        [ApiController]
-        [Route("api/event")]
-        public class EventController : ControllerBase
+        public EventController ( )
         {
-            private readonly List<Event> events = new List<Event>();
+            events = GenerateSampleEvents ( );
+        }
 
-            public EventController()
-            {
-                events = GenerateSampleEvents();
-            }
+        /// <summary>
+        /// Get all events.
+        /// </summary>
+        /// <returns>List of events.</returns>
+        [HttpGet]
+        [ProducesResponseType ( 200, Type = typeof ( IEnumerable<Event> ) )]
+        public IActionResult GetAllEvents ( )
+        {
+            return Ok ( events );
+        }
 
-            /// <summary>
-            /// Get all events.
-            /// </summary>
-            /// <returns>List of events.</returns>
-            [HttpGet]
-            [ProducesResponseType(200, Type = typeof(IEnumerable<Event>))]
-            public IActionResult GetAllEvents()
-            {
-                return Ok(events);
-            }
+        /// <summary>
+        /// Get an event by ID.
+        /// </summary>
+        /// <param name="id">Event ID.</param>
+        /// <returns>Event details if found, otherwise returns NotFound.</returns>
+        [HttpGet ( "{id}" )]
+        [ProducesResponseType ( 200, Type = typeof ( Event ) )]
+        [ProducesResponseType ( 404 )]
+        public IActionResult GetEventById ( Guid id )
+        {
+            var entityById = events.SingleOrDefault(e => e.Id == id);
+            return entityById != null ? Ok ( entityById ) : NotFound ( );
+        }
 
-            /// <summary>
-            /// Get an event by ID.
-            /// </summary>
-            /// <param name="id">Event ID.</param>
-            /// <returns>Event details if found, otherwise returns NotFound.</returns>
-            [HttpGet("{id}")]
-            [ProducesResponseType(200, Type = typeof(Event))]
-            [ProducesResponseType(404)]
-            public IActionResult GetEventById(Guid id)
-            {
-                var entityById = events.SingleOrDefault(e => e.Id == id);
-                return entityById != null ? Ok(entityById) : NotFound();
-            }
+        /// <summary>
+        /// Create a new event.
+        /// </summary>
+        /// <param name="entity">Event details for creation.</param>
+        /// <returns>Created event details.</returns>
+        [HttpPost]
+        [ProducesResponseType ( 201, Type = typeof ( Event ) )]
+        public IActionResult CreateEvent ( [FromBody] Event entity )
+        {
+            //Implementation
+            return Created ( "/api/event", entity );
+        }
 
-            /// <summary>
-            /// Create a new event.
-            /// </summary>
-            /// <param name="entity">Event details for creation.</param>
-            /// <returns>Created event details.</returns>
-            [HttpPost]
-            [ProducesResponseType(201, Type = typeof(Event))]
-            public IActionResult CreateEvent([FromBody] Event entity)
-            {
-                //Implementation
-                return Created("/api/event", entity);
-            }
+        /// <summary>
+        /// Update an existing event.
+        /// </summary>
+        /// <param name="id">Event ID.</param>
+        /// <param name="entity">Updated event details.</param>
+        /// <returns>NoContent if successful, NotFound if the event is not found.</returns>
+        [HttpPut ( "{id}" )]
+        [ProducesResponseType ( 204 )]
+        [ProducesResponseType ( 404 )]
+        public IActionResult UpdateEvent ( int id, [FromBody] Event entity )
+        {
+            //Implementation
+            return NoContent ( );
+        }
 
-            /// <summary>
-            /// Update an existing event.
-            /// </summary>
-            /// <param name="id">Event ID.</param>
-            /// <param name="entity">Updated event details.</param>
-            /// <returns>NoContent if successful, NotFound if the event is not found.</returns>
-            [HttpPut("{id}")]
-            [ProducesResponseType(204)]
-            [ProducesResponseType(404)]
-            public IActionResult UpdateEvent(int id, [FromBody] Event entity)
-            {
-                //Implementation
-                return NoContent();
-            }
+        /// <summary>
+        /// Delete an event by ID.
+        /// </summary>
+        /// <param name="id">Event ID.</param>
+        /// <returns>NoContent if successful, NotFound if the event is not found.</returns>
+        [HttpDelete ( "{id}" )]
+        [ProducesResponseType ( 204 )]
+        [ProducesResponseType ( 404 )]
+        public IActionResult DeleteEvent ( int id )
+        {
+            //Implementation
+            return NoContent ( );
+        }
 
-            /// <summary>
-            /// Delete an event by ID.
-            /// </summary>
-            /// <param name="id">Event ID.</param>
-            /// <returns>NoContent if successful, NotFound if the event is not found.</returns>
-            [HttpDelete("{id}")]
-            [ProducesResponseType(204)]
-            [ProducesResponseType(404)]
-            public IActionResult DeleteEvent(int id)
+        private List<Event> GenerateSampleEvents ( )
+        {
+            return new List<Event>
             {
-                //Implementation
-                return NoContent();
-            }
-
-            private List<Event> GenerateSampleEvents()
-            {
-                return new List<Event>
-            {
-                new Event
+                new()
                 {
                     Id = new Guid("c730d19e-7d7a-4e36-b450-92b011b7a24f"),
                     Name = "Tech Summit 2024",
@@ -96,7 +99,7 @@ namespace EventMaster.Controllers
                     Location = "Convention Center, San Francisco",
                     Speakers = new List<string> { "John Smith", "Emily Johnson", "Michael Lee" }
                 },
-                new Event
+                new()
                 {
                     Id = new Guid("f88b2443-95e4-4a89-9fc8-82b922c59391"),
                     Name = "Startup Launchpad",
@@ -104,7 +107,7 @@ namespace EventMaster.Controllers
                     Location = "Tech Hub, New York",
                     Speakers = new List<string> { "Sarah Brown", "David Clark" }
                 },
-                new Event
+                new()
                 {
                     Id = new Guid("b9284822-0e46-4ae1-bc6e-37e53a2f4e13"),
                     Name = "Data Science Conference",
@@ -114,8 +117,8 @@ namespace EventMaster.Controllers
                 }
             };
 
-            }
         }
     }
+}
 
 

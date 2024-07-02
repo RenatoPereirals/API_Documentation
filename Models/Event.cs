@@ -1,5 +1,8 @@
 ﻿namespace EventMaster.Models;
 
+/// <summary>
+/// Model class
+/// </summary>
 public class Event
 {
     /// <summary>

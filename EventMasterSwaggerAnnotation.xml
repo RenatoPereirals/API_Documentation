@@ -9,6 +9,11 @@
             Controller for managing events.
             </summary>
         </member>
+        <member name="M:EventMaster.Controllers.EventController.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="M:EventMaster.Controllers.EventController.GetAllEvents">
             <summary>
             Get all events.
@@ -43,6 +48,11 @@
             </summary>
             <param name="id">Event ID.</param>
             <returns>NoContent if successful, NotFound if the event is not found.</returns>
+        </member>
+        <member name="T:EventMaster.Models.Event">
+            <summary>
+            Model class
+            </summary>
         </member>
         <member name="P:EventMaster.Models.Event.Id">
             <summary>
