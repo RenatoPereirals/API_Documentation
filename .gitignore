@@ -141,8 +141,10 @@ _ReSharper*/
 # TeamCity is a build add-in
 _TeamCity*
 
-# Ignore _site directory
+# Ignore docfx directory and files
 _site
+install-log.txt
+*.http
 
 # DotCover is a Code Coverage Tool
 *.dotCover
